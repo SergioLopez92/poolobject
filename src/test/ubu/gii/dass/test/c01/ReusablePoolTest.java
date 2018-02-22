@@ -38,6 +38,8 @@ public class ReusablePoolTest {
 	public void testGetInstance() {
 		ReusablePool r = ReusablePool.getInstance();
 		assert(r!=null);
+		assert(r instanceof ReusablePool);
+		
 		
 	}
 
