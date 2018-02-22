@@ -49,15 +49,17 @@ public class ReusablePoolTest {
 	 * Test method for {@link ubu.gii.dass.c01.ReusablePool#acquireReusable()}.
 	 * @throws NotFreeInstanceException 
 	 */
-	@Test(expected = NotFreeInstanceException.class)
+	@Test
 
 	public void testAcquireReusable() throws NotFreeInstanceException {
-		
 		ReusablePool r = ReusablePool.getInstance();
-		assert(r.acquireReusable() instanceof Reusable);
-		assert(r.acquireReusable() instanceof Reusable);
-		//assert (r.acquireReusable() instanceof Reusable);
-		
+		try{
+			assert(r.acquireReusable() instanceof Reusable);
+			assert(r.acquireReusable() instanceof Reusable);
+		}catch(NotFreeInstanceException ex){fail("Error");}
+		try{
+			r.acquireReusable();
+		}catch(NotFreeInstanceException ex2){}
 	}
 
 	/**
