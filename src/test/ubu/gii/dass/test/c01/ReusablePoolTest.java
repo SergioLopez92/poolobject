@@ -72,10 +72,12 @@ public class ReusablePoolTest {
 		try{
 			ReusablePool r = ReusablePool.getInstance();
 			
-			assert(r.acquireReusable() instanceof Reusable);
-			Reusable reu=r.acquireReusable();
-			r.releaseReusable(reu);
-			r.acquireReusable();
+			Reusable reu1=r.acquireReusable();
+			Reusable reu2=r.acquireReusable();
+			r.releaseReusable(reu1);
+			reu1=r.acquireReusable();
+			r.releaseReusable(reu1);
+			r.releaseReusable(reu2);
 			
 		}catch(NotFreeInstanceException ex3){fail("Error, no hay espacio en el pool");}catch(DuplicatedInstanceException ex3){fail("Instancia duplicada");}
 		}
