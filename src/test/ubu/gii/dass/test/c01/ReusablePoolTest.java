@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ubu.gii.dass.c01.DuplicatedInstanceException;
 import ubu.gii.dass.c01.NotFreeInstanceException;
 import ubu.gii.dass.c01.Reusable;
 import ubu.gii.dass.c01.ReusablePool;
@@ -50,13 +51,12 @@ public class ReusablePoolTest {
 	 * @throws NotFreeInstanceException 
 	 */
 	@Test
-
 	public void testAcquireReusable() throws NotFreeInstanceException {
 		ReusablePool r = ReusablePool.getInstance();
 		try{
 			assert(r.acquireReusable() instanceof Reusable);
 			assert(r.acquireReusable() instanceof Reusable);
-		}catch(NotFreeInstanceException ex){fail("Error");}
+		}catch(NotFreeInstanceException ex){fail("Error, no hay espacio en el pool");}
 		try{
 			r.acquireReusable();
 		}catch(NotFreeInstanceException ex2){}
@@ -67,7 +67,19 @@ public class ReusablePoolTest {
 	 */
 	@Test
 	public void testReleaseReusable() {
-		assert(true);
-	}
-
+		
+	
+		try{
+			ReusablePool r = ReusablePool.getInstance();
+			
+			assert(r.acquireReusable() instanceof Reusable);
+			Reusable reu=r.acquireReusable();
+			r.releaseReusable(reu);
+			r.acquireReusable();
+			
+		}catch(NotFreeInstanceException ex3){fail("Error, no hay espacio en el pool");}catch(DuplicatedInstanceException ex3){fail("Instancia duplicada");}
+		}
+		
+		
 }
+
